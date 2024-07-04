@@ -67,6 +67,6 @@ total_population_slider = st.slider('Total Population Size', min_value=100000, m
 predicted_vaccinated_adjusted = np.mean(y_prob) * total_population_slider
 
 # Display the result with Streamlit
-st.title("Vaccination Prediction")
-st.markdown('<p class="big-font">Predicted number of people to get vaccinated:</p>', unsafe_allow_html=True)
-st.markdown(f'<p class="big-font">{predicted_vaccinated_adjusted:.0f}</p>', unsafe_allow_html=True)
+#st.title("Vaccination Prediction")
+#st.markdown('<p class="big-font">Predicted number of people to get vaccinated:</p>', unsafe_allow_html=True)
+#st.markdown(f'<p class="big-font">{predicted_vaccinated_adjusted:.0f}</p>', unsafe_allow_html=True)
