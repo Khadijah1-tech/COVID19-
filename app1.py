@@ -3,12 +3,21 @@ import pandas as pd
 import numpy as np
 import pickle
 
+# Custom label encoding function
+def custom_label_encoder(column):
+    categories = column.unique()
+    mapping = {cat: idx for idx, cat in enumerate(categories)}
+    return column.map(mapping)
+
 # Load the survey data
 data = pd.read_csv('Vaccinaion Update.csv')
 
 # Convert 'Vaccination_Intention' to numerical values
 data['Vaccine Status'] = data['Vaccine Status'].apply(lambda x: 1 if x == 'Yes' else 0)
 data.drop('Which of these activities below affected your behaviour  during the pandemic period ', axis=1,inplace=True)
+# Convert other categorical variables to numerical values using custom label encoder
+for column in data.select_dtypes(include=['object']).columns:
+    data[column] = custom_label_encoder(data[column])
 # Convert other categorical variables to numerical values using get_dummies or LabelEncoder
 label_encoders = {}
 for column in data.select_dtypes(include=['object']).columns:
