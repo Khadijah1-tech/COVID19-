@@ -1,392 +1,46 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": 8,
-   "id": "0fa3fa97",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import streamlit as st\n",
-    "import pandas as pd\n",
-    "import numpy as np\n",
-    "import pickle\n",
-    "\n",
-    "# Load the survey data\n",
-    "data = pd.read_csv('Vaccinaion Update.csv')\n",
-    "\n",
-    "# Convert 'Vaccination_Intention' to numerical values\n",
-    "data['Vaccine Status'] = data['Vaccine Status'].apply(lambda x: 1 if x == 'Yes' else 0)\n",
-    "\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 12,
-   "id": "b04d8ee9",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>Gender</th>\n",
-       "      <th>Age</th>\n",
-       "      <th>Awareness</th>\n",
-       "      <th>Information</th>\n",
-       "      <th>Enough Vaccines</th>\n",
-       "      <th>Government Address Misinformation</th>\n",
-       "      <th>Feel Safe with Vaccine</th>\n",
-       "      <th>Pontential Side Effects Awareness</th>\n",
-       "      <th>Concern About Side Effects</th>\n",
-       "      <th>Trust Vaccines</th>\n",
-       "      <th>...</th>\n",
-       "      <th>Thoughts on other vaccination</th>\n",
-       "      <th>Thought on Children Safety</th>\n",
-       "      <th>Pregnant Women Safety</th>\n",
-       "      <th>Underline Health Conditions safety</th>\n",
-       "      <th>All ages safety</th>\n",
-       "      <th>Do you think that there should be mandatory COVID vaccination?</th>\n",
-       "      <th>Positive impact of Pandemic</th>\n",
-       "      <th>Which of these activities below affected your behaviour  during the pandemic period</th>\n",
-       "      <th>Which of these activities  do you still practice in your daily life after the post-pandemic</th>\n",
-       "      <th>Did it affect the vaccination uptake?</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>...</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>41</td>\n",
-       "      <td>3</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>...</td>\n",
-       "      <td>2</td>\n",
-       "      <td>2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>12</td>\n",
-       "      <td>31</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>...</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>37</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>2</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>...</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>11</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>...</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>1</td>\n",
-       "      <td>12</td>\n",
-       "      <td>1</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "<p>5 rows × 33 columns</p>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "   Gender  Age  Awareness  Information  Enough Vaccines  \\\n",
-       "0       0    0          0            0                0   \n",
-       "1       1    1          1            1                0   \n",
-       "2       0    0          0            1                0   \n",
-       "3       1    0          1            1                0   \n",
-       "4       0    0          1            1                0   \n",
-       "\n",
-       "   Government Address Misinformation  Feel Safe with Vaccine  \\\n",
-       "0                                  1                       0   \n",
-       "1                                  2                       1   \n",
-       "2                                  0                       1   \n",
-       "3                                  2                       1   \n",
-       "4                                  0                       1   \n",
-       "\n",
-       "   Pontential Side Effects Awareness  Concern About Side Effects  \\\n",
-       "0                                  1                           1   \n",
-       "1                                  1                           1   \n",
-       "2                                  1                           1   \n",
-       "3                                  1                           1   \n",
-       "4                                  1                           1   \n",
-       "\n",
-       "   Trust Vaccines  ...  Thoughts on other vaccination  \\\n",
-       "0               0  ...                              0   \n",
-       "1               1  ...                              2   \n",
-       "2               0  ...                              0   \n",
-       "3               1  ...                              0   \n",
-       "4               0  ...                              0   \n",
-       "\n",
-       "   Thought on Children Safety  Pregnant Women Safety  \\\n",
-       "0                           0                      1   \n",
-       "1                           2                      1   \n",
-       "2                           1                      0   \n",
-       "3                           0                      1   \n",
-       "4                           1                      1   \n",
-       "\n",
-       "   Underline Health Conditions safety  All ages safety  \\\n",
-       "0                                   1                1   \n",
-       "1                                   1                1   \n",
-       "2                                   0                0   \n",
-       "3                                   1                1   \n",
-       "4                                   0                0   \n",
-       "\n",
-       "   Do you think that there should be mandatory COVID vaccination?  \\\n",
-       "0                                                  1                \n",
-       "1                                                  0                \n",
-       "2                                                  0                \n",
-       "3                                                  0                \n",
-       "4                                                  1                \n",
-       "\n",
-       "   Positive impact of Pandemic  \\\n",
-       "0                            1   \n",
-       "1                            1   \n",
-       "2                            1   \n",
-       "3                            1   \n",
-       "4                            1   \n",
-       "\n",
-       "   Which of these activities below affected your behaviour  during the pandemic period   \\\n",
-       "0                                                 41                                      \n",
-       "1                                                 12                                      \n",
-       "2                                                 37                                      \n",
-       "3                                                 11                                      \n",
-       "4                                                  1                                      \n",
-       "\n",
-       "   Which of these activities  do you still practice in your daily life after the post-pandemic  \\\n",
-       "0                                                  3                                             \n",
-       "1                                                 31                                             \n",
-       "2                                                  1                                             \n",
-       "3                                                  0                                             \n",
-       "4                                                 12                                             \n",
-       "\n",
-       "   Did it affect the vaccination uptake?  \n",
-       "0                                      1  \n",
-       "1                                      0  \n",
-       "2                                      0  \n",
-       "3                                      1  \n",
-       "4                                      1  \n",
-       "\n",
-       "[5 rows x 33 columns]"
-      ]
-     },
-     "execution_count": 12,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "data.head()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 13,
-   "id": "6b89637a",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "data.drop('Which of these activities below affected your behaviour  during the pandemic period ', axis=1,inplace=True)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 14,
-   "id": "7e1a99bf",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Convert other categorical variables to numerical values using get_dummies or LabelEncoder\n",
-    "label_encoders = {}\n",
-    "for column in data.select_dtypes(include=['object']).columns:\n",
-    "    label_encoders[column] = LabelEncoder()\n",
-    "    data[column] = label_encoders[column].fit_transform(data[column])\n",
-    "\n",
-    "# Select features and target variable\n",
-    "X = data.drop('Vaccine Status', axis=1)\n",
-    "y = data['Vaccine Status']\n",
-    "\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 15,
-   "id": "7e86699f",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Load the trained model from the file\n",
-    "with open('vaccination_model.pkl', 'rb') as file:\n",
-    "    loaded_model = pickle.load(file)\n",
-    "\n",
-    "# Load the scaler from the file\n",
-    "with open('scaler.pkl', 'rb') as file:\n",
-    "    scaler = pickle.load(file)\n",
-    "\n",
-    "# Standardize the features\n",
-    "X_scaled = scaler.transform(X)\n",
-    "X_scaled = pd.DataFrame(X_scaled, columns=X.columns)\n",
-    "\n",
-    "\n",
-    "\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 18,
-   "id": "a5e4cbb7",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Predict the probability of vaccination for the entire dataset using the loaded model\n",
-    "y_prob = loaded_model.predict_proba(X_scaled)[:, 1]\n",
-    "\n",
-    "# Assume you have the total population size\n",
-    "total_population = 3551000\n",
-    "\n",
-    "# Calculate the expected number of people to get vaccinated\n",
-    "predicted_vaccinated = np.mean(y_prob) * total_population\n",
-    "\n",
-    "# Display the result with Streamlit\n",
-    "st.title(\"Vaccination Prediction\")\n",
-    "st.write(f'Predicted number of people to get vaccinated: {predicted_vaccinated:.0f}')"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "0e8df7b8",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.9.13"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+import streamlit as st
+import pandas as pd
+import numpy as np
+import pickle
+
+# Load the survey data
+data = pd.read_csv('Vaccinaion Update.csv')
+
+# Convert 'Vaccination_Intention' to numerical values
+data['Vaccine Status'] = data['Vaccine Status'].apply(lambda x: 1 if x == 'Yes' else 0)
+data.drop('Which of these activities below affected your behaviour  during the pandemic period ', axis=1,inplace=True)
+# Convert other categorical variables to numerical values using get_dummies or LabelEncoder
+label_encoders = {}
+for column in data.select_dtypes(include=['object']).columns:
+    label_encoders[column] = LabelEncoder()
+    data[column] = label_encoders[column].fit_transform(data[column])
+
+# Select features and target variable
+X = data.drop('Vaccine Status', axis=1)
+y = data['Vaccine Status']
+
+# Load the trained model from the file
+with open('vaccination_model.pkl', 'rb') as file:
+    loaded_model = pickle.load(file)
+
+# Load the scaler from the file
+with open('scaler.pkl', 'rb') as file:
+    scaler = pickle.load(file)
+
+# Standardize the features
+X_scaled = scaler.transform(X)
+X_scaled = pd.DataFrame(X_scaled, columns=X.columns)
+
+
+# Predict the probability of vaccination for the entire dataset using the loaded model
+y_prob = loaded_model.predict_proba(X_scaled)[:, 1]
+
+# Assume you have the total population size
+total_population = 3551000
+
+# Calculate the expected number of people to get vaccinated
+predicted_vaccinated = np.mean(y_prob) * total_population
+
+# Display the result with Streamlit
+st.title("Vaccination Prediction")
+st.write(f'Predicted number of people to get vaccinated: {predicted_vaccinated:.0f}')
