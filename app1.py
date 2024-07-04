@@ -52,11 +52,12 @@ st.markdown("""
 .big-font {
     font-size: 36px !important;
     font-weight: bold;
+    color:red
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<p class="big-font">Predicted number of people to get vaccinated:</p>', unsafe_allow_html=True)
+st.markdown('<p class="big-font">Predicted Amount of People to be Vaccinated in coming years:</p>', unsafe_allow_html=True)
 st.markdown(f'<p class="big-font">{predicted_vaccinated:.0f}</p>', unsafe_allow_html=True)
 
 
